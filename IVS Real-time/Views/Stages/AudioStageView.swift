@@ -19,10 +19,19 @@ struct AudioStageView: View {
                     HStack {
                         ForEach(row.seats) { seat in
                             let participantId = stage.participantIdForSeat(at: seat.index)
-                            if let participant = appModel.stageModel.dataForParticipant(participantId) {
-                                TakenSeat(seat: seat, user: participant)
-                            } else {
+                            if participantId.isEmpty {
                                 EmptySeat(seat: seat, stage: stage)
+                            } else {
+                                if let participant = appModel.stageModel.dataForParticipant(participantId) {
+                                    TakenSeat(seat: seat, user: participant)
+                                } else {
+                                    SeatView(seat: seat, content: {
+                                        AvatarView(avatar: nil,
+                                                   withBorder: true,
+                                                   borderColor: .white,
+                                                   size: 60)
+                                    })
+                                }
                             }
                         }
                     }
@@ -68,7 +77,7 @@ struct EmptySeat: View {
     @ObservedObject var stage: Stage
 
     var body: some View {
-        ZStack {
+        SeatView(seat: seat, content: {
             if stage.participantIdForSeat(at: seat.index).isEmpty {
                 Button {
                     if appModel.user.isHost { return }
@@ -86,19 +95,7 @@ struct EmptySeat: View {
             } else {
                 ProgressView()
             }
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(Color.clear)
-                .frame(width: 80, height: 94)
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.white, lineWidth: 1)
-                }
-                .colorScheme(.light)
-        )
-        .frame(width: 80, height: 94)
+        })
     }
 }
 
@@ -107,7 +104,7 @@ struct TakenSeat: View {
     @ObservedObject var user: User
 
     var body: some View {
-        ZStack {
+        SeatView(seat: seat, content: {
             ZStack {
                 AvatarView(avatar: user.avatar,
                            withBorder: true,
@@ -130,6 +127,22 @@ struct TakenSeat: View {
                     .offset(x: 15, y: 15)
                 }
             }
+        })
+    }
+}
+
+struct SeatView<Content: View>: View {
+    @ObservedObject var seat: StageSeat
+    let content: Content
+
+    init(seat: StageSeat, @ViewBuilder content: () -> Content) {
+        self.seat = seat
+        self.content = content()
+    }
+
+    var body: some View {
+        ZStack {
+            content
         }
         .background(
             RoundedRectangle(cornerRadius: 12)

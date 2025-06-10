@@ -106,7 +106,7 @@ struct SetupView: View {
                         .cornerRadius(20)
                     }
                 }
-                .padding(.bottom, 4)
+                .padding(.bottom, 16)
             }
             .padding(.horizontal, 16)
             .frame(maxHeight: .infinity)

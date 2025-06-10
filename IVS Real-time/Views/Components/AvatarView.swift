@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AvatarView: View {
-    var avatar: Avatar
+    var avatar: Avatar?
     var withBorder: Bool = false
     var borderColor: Color = .white
     var size: CGFloat = 42
@@ -16,17 +16,23 @@ struct AvatarView: View {
     var body: some View {
             VStack(spacing: 0) {
                 Rectangle()
-                    .fill(Color(uiColor: avatar.bottomColor).opacity(1))
+                    .fill(Color(uiColor: avatar?.bottomColor ?? .white)
+                        .opacity(avatar == nil ? 0.4 : 1)
+                    )
                     .frame(width: size, height: size)
                 HStack(spacing: 0) {
                     Rectangle()
-                        .fill(Color(uiColor: avatar.rightColor).opacity(1))
+                        .fill(Color(uiColor: avatar?.rightColor ?? .white)
+                            .opacity(avatar == nil ? 0.4 : 1)
+                        )
                         .frame(width: size/2, height: size/2)
                     Rectangle()
-                        .fill(Color(uiColor: avatar.leftColor).opacity(1))
+                        .fill(Color(uiColor: avatar?.leftColor ?? .white)
+                            .opacity(avatar == nil ? 0.4 : 1)
+                        )
                         .frame(width: size/2, height: size/2)
                 }
-                .offset(y: -size/4)
+                .offset(y: avatar == nil ? 0 : -size/4)
             }
             .rotationEffect(Angle(degrees: 180))
             .frame(width: size, height: size)
@@ -37,6 +43,36 @@ struct AvatarView: View {
                     RoundedRectangle(cornerRadius: 50)
                         .stroke(borderColor, lineWidth: 2)
                 }
+
+                if avatar == nil {
+                    Text("?")
+                        .font(Constants.fInterBlack36)
+                        .foregroundColor(.white)
+                }
             }
+    }
+}
+
+#Preview("With avatar") {
+    ZStack {
+        Rectangle()
+            .fill(.gray)
+        AvatarView(avatar: Avatar(colLeft: "#FFF001",
+                                  colRight: "#01F0F1",
+                                  colBottom: "#FF1102"),
+                   withBorder: true,
+                   borderColor: .white,
+                   size: 60)
+    }
+}
+
+#Preview("No avatar") {
+    ZStack {
+        Rectangle()
+            .fill(.gray)
+        AvatarView(avatar: nil,
+                   withBorder: true,
+                   borderColor: .white,
+                   size: 60)
     }
 }

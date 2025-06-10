@@ -74,6 +74,7 @@ struct BottomSheetConfirmationView<Content: View>: View {
             }
             .frame(height: contentHeight)
             .offset(y: YOffset)
+            .padding(.bottom, 16)
         }
         .transition(.opacity)
         .onAppear {
