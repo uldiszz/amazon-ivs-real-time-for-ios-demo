@@ -37,10 +37,13 @@ struct AudioStageView: View {
                     }
                 }
             }
+            .padding(20)
+            .frame(maxWidth: 551)
             .offset(y: -120)
         }
         .edgesIgnoringSafeArea(.top)
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - appModel.activeStageBottomSpace)
+        .frame(width: UIScreen.main.bounds.width,
+               height: UIScreen.main.bounds.height - appModel.activeStageBottomSpace)
         .background(
             Image("AUDIO_STAGE_BG")
                 .resizable()
@@ -143,11 +146,12 @@ struct SeatView<Content: View>: View {
     var body: some View {
         ZStack {
             content
+                .frame(minWidth: 80, minHeight: 94)
+                .frame(maxWidth: 130, maxHeight: 133)
         }
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .foregroundColor(Color.clear)
-                .frame(width: 80, height: 94)
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
@@ -155,6 +159,5 @@ struct SeatView<Content: View>: View {
                 }
                 .colorScheme(.light)
         )
-        .frame(width: 80, height: 94)
     }
 }

@@ -39,15 +39,15 @@ struct AvatarView: View {
             .clipShape(Circle())
             .transition(.opacity)
             .overlay {
+                if avatar == nil {
+                    Image("no_avatar")
+                        .resizable()
+                        .frame(width: size, height: size)
+                }
+
                 if withBorder {
                     RoundedRectangle(cornerRadius: 50)
                         .stroke(borderColor, lineWidth: 2)
-                }
-
-                if avatar == nil {
-                    Text("?")
-                        .font(Constants.fInterBlack36)
-                        .foregroundColor(.white)
                 }
             }
     }

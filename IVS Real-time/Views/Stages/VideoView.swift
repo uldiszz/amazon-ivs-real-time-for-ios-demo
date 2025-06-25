@@ -19,7 +19,8 @@ struct VideoView: View {
                     participant.previewView
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: 551, maxHeight: .infinity)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
             .background(
                 Color("BackgroundDark")
                     .overlay {

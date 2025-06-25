@@ -17,7 +17,7 @@ struct SetupView: View {
             Color("BackgroundWhite")
                 .edgesIgnoringSafeArea(.all)
 
-            VStack(alignment: .leading) {
+            VStack {
                 HStack {
                     Button(action: {
                         appModel.generateRandomUsername()
@@ -49,17 +49,21 @@ struct SetupView: View {
 
                 Spacer()
 
-                HStack(spacing: 4) {
-                    Text("IVS")
-                        .font(Constants.fInterBlack36)
-                        .foregroundColor(.black)
-                    Text("Real-time")
-                        .foregroundColor(Color("Orange"))
-                        .font(Constants.fInterBlack36)
+                VStack(alignment: .leading) {
+                    HStack(spacing: 4) {
+                        Text("IVS")
+                            .font(Constants.fInterBlack36)
+                            .foregroundColor(.black)
+                        Text("Real-time")
+                            .foregroundColor(Color("Orange"))
+                            .font(Constants.fInterBlack36)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.bottom, 40)
+                .frame(maxWidth: 600)
 
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(spacing: 12) {
                     Button {
                         withAnimation {
                             isStageSelectionPresent.toggle()
@@ -107,6 +111,7 @@ struct SetupView: View {
                     }
                 }
                 .padding(.bottom, 16)
+                .frame(maxWidth: 600)
             }
             .padding(.horizontal, 16)
             .frame(maxHeight: .infinity)

@@ -10,6 +10,7 @@ import SwiftUI
 struct JitterView: View {
     var count: Int = 1
     var width: CGFloat = 5
+    var verticalPadding: CGFloat = 0
 
     @State private var offsetOne: Double = -1
     @State private var offsetTwo: Double = 1
@@ -45,5 +46,6 @@ struct JitterView: View {
                 .frame(width: width)
                 .blur(radius: 2)
         }
+        .padding(.vertical, verticalPadding)
     }
 }
