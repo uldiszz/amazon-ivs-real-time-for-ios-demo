@@ -57,7 +57,6 @@ struct WelcomeView: View {
                         .frame(height: 50)
                 }
                 .modifier(PrimaryButton(color: .white, font: Constants.fInterExtraBold18))
-                .padding(.bottom, 16)
             }
             .padding(.horizontal, 16)
 

@@ -39,7 +39,7 @@ struct StageOverlayView: View {
                     .opacity(overlayHidden ? 0 : 1)
             }
         }
-        .frame(maxWidth: 889, maxHeight: .infinity)
+        .frame(maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
     }
 }

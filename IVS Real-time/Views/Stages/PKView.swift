@@ -20,7 +20,8 @@ struct PKView: View {
     var body: some View {
         ZStack(alignment: .top) {
             ZStack {
-                VStack(alignment: .center, spacing: 2) {
+                VStack(alignment: .leading, spacing: 2) {
+
                     ZStack(alignment: .bottom) {
                         HStack(spacing: 2) {
                             ZStack {
@@ -28,7 +29,8 @@ struct PKView: View {
                                     participant.previewView
                                 }
                             }
-                            .frame(maxWidth: .infinity)
+                            .frame(width: UIScreen.main.bounds.width/2)
+                            .frame(maxHeight: .infinity)
                             .background(
                                 Color("BackgroundDark")
                                     .overlay {
@@ -36,14 +38,14 @@ struct PKView: View {
                                             .progressViewStyle(.circular)
                                     }
                             )
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
 
                             ZStack {
                                 if let participant2 = appModel.activeStageSecondParticipant {
                                     participant2.previewView
                                 }
                             }
-                            .frame(maxWidth: .infinity)
+                            .frame(width: UIScreen.main.bounds.width/2)
+                            .frame(maxHeight: .infinity)
                             .background(
                                 Color("BackgroundDark")
                                     .overlay {
@@ -51,11 +53,10 @@ struct PKView: View {
                                             .progressViewStyle(.circular)
                                     }
                             )
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
                         }
-                        .frame(maxHeight: UIScreen.main.bounds.height * 0.4)
+                        .frame(height: 294)
                         .overlay {
-                            JitterView(count: 10, verticalPadding: 15)
+                            JitterView(count: 10)
                         }
 
                         if appModel.votingSessionIsActive {
@@ -76,7 +77,6 @@ struct PKView: View {
                     VoteBarView()
                         .padding(.bottom, 20)
                 }
-                .frame(maxWidth: 551)
 
                 Image("PK")
                     .resizable()
