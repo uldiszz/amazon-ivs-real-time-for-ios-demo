@@ -19,31 +19,19 @@ struct AudioStageView: View {
                     HStack {
                         ForEach(row.seats) { seat in
                             let participantId = stage.participantIdForSeat(at: seat.index)
-                            if participantId.isEmpty {
-                                EmptySeat(seat: seat, stage: stage)
+                            if let participant = appModel.stageModel.dataForParticipant(participantId) {
+                                TakenSeat(seat: seat, user: participant)
                             } else {
-                                if let participant = appModel.stageModel.dataForParticipant(participantId) {
-                                    TakenSeat(seat: seat, user: participant)
-                                } else {
-                                    SeatView(seat: seat, content: {
-                                        AvatarView(avatar: nil,
-                                                   withBorder: true,
-                                                   borderColor: .white,
-                                                   size: 60)
-                                    })
-                                }
+                                EmptySeat(seat: seat, stage: stage)
                             }
                         }
                     }
                 }
             }
-            .padding(20)
-            .frame(maxWidth: 551)
             .offset(y: -120)
         }
         .edgesIgnoringSafeArea(.top)
-        .frame(width: UIScreen.main.bounds.width,
-               height: UIScreen.main.bounds.height - appModel.activeStageBottomSpace)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - appModel.activeStageBottomSpace)
         .background(
             Image("AUDIO_STAGE_BG")
                 .resizable()
@@ -80,7 +68,7 @@ struct EmptySeat: View {
     @ObservedObject var stage: Stage
 
     var body: some View {
-        SeatView(seat: seat, content: {
+        ZStack {
             if stage.participantIdForSeat(at: seat.index).isEmpty {
                 Button {
                     if appModel.user.isHost { return }
@@ -98,7 +86,19 @@ struct EmptySeat: View {
             } else {
                 ProgressView()
             }
-        })
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(Color.clear)
+                .frame(width: 80, height: 94)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.white, lineWidth: 1)
+                }
+                .colorScheme(.light)
+        )
+        .frame(width: 80, height: 94)
     }
 }
 
@@ -107,7 +107,7 @@ struct TakenSeat: View {
     @ObservedObject var user: User
 
     var body: some View {
-        SeatView(seat: seat, content: {
+        ZStack {
             ZStack {
                 AvatarView(avatar: user.avatar,
                            withBorder: true,
@@ -130,28 +130,11 @@ struct TakenSeat: View {
                     .offset(x: 15, y: 15)
                 }
             }
-        })
-    }
-}
-
-struct SeatView<Content: View>: View {
-    @ObservedObject var seat: StageSeat
-    let content: Content
-
-    init(seat: StageSeat, @ViewBuilder content: () -> Content) {
-        self.seat = seat
-        self.content = content()
-    }
-
-    var body: some View {
-        ZStack {
-            content
-                .frame(minWidth: 80, minHeight: 94)
-                .frame(maxWidth: 130, maxHeight: 133)
         }
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .foregroundColor(Color.clear)
+                .frame(width: 80, height: 94)
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
@@ -159,5 +142,6 @@ struct SeatView<Content: View>: View {
                 }
                 .colorScheme(.light)
         )
+        .frame(width: 80, height: 94)
     }
 }

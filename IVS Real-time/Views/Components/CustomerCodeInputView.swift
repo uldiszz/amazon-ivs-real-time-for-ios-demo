@@ -107,7 +107,6 @@ struct CustomerCodeInputView: View {
                         .modifier(PrimaryButton())
                         .padding(.bottom, 30)
                     }
-                    .padding(.bottom, 16)
                     .padding(.horizontal, 16)
                 }
                 .frame(height: 200)
