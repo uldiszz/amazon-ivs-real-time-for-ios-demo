@@ -43,7 +43,7 @@ struct VoteBarView: View {
                 }
 
                 SparksView(voteOffset: $voteOffset)
-                    .position(x: UIScreen.main.bounds.width * 0.75, y: 20)
+                    .position(x: UIScreen.main.bounds.width * 0.55, y: 20)
                     .overlay {
                         HStack(spacing: 0) {
                             Image("radial_l")
@@ -81,7 +81,7 @@ struct VoteBarView: View {
                 JitterView(count: 12, width: 10)
             }
         }
-        .frame(width: UIScreen.main.bounds.width, height: 20)
+        .frame(height: 20)
         .offset(x: voteOffset)
         .animation(.linear, value: voteOffset)
         .onChange(of: appModel.votesCountHost) { _ in
@@ -105,6 +105,8 @@ struct VoteBarView: View {
             hostFlareHidden = appModel.votesCountHost < appModel.votesCountParticipant
             participantFlareHidden = appModel.votesCountHost > appModel.votesCountParticipant
         }
+        .frame(maxWidth: 551)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 
